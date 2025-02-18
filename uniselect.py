@@ -1,80 +1,119 @@
+# Import necessary libraries
 import numpy as np
 import pandas as pd
-from sklearn.feature_selection import chi2, SelectKBest
+from sklearn.model_selection import train_test_split
+from sklearn.feature_selection import SelectKBest, chi2
 from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.feature_selection import RFE
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import StandardScaler
 
-class UniSelect:
-    def __init__(self, k1=10, k2=15):
-        """
-        Initializes the UniSelect feature selection process.
-        
-        :param k1: Number of top features selected using Chi-Square.
-        :param k2: Number of top features selected using Feature Importance.
-        """
-        self.k1 = k1
-        self.k2 = k2
-        self.chi2_selected = None
-        self.fif_selected = None
-        self.selected_features = None
+# Step 1: Calculate Chi-Square score for each feature
+def chi_square_selection(X, y, k1):
+    chi2_selector = SelectKBest(chi2, k=k1)
+    chi2_selector.fit(X, y)
+    selected_features_chi2 = chi2_selector.get_support(indices=True)
+    return selected_features_chi2
 
-    def fit(self, X, y):
-        """
-        Applies Chi-Square and Feature Importance selection.
-        
-        :param X: Feature matrix (pandas DataFrame).
-        :param y: Target labels (pandas Series or numpy array).
-        """
-        # Step 1: Chi-Square Feature Selection
-        chi2_selector = SelectKBest(chi2, k=self.k1)
-        chi2_selector.fit(X, y)
-        chi2_features = X.columns[chi2_selector.get_support()]
-        self.chi2_selected = set(chi2_features)
+# Step 2: Feature Importance Selection using ExtraTreesClassifier
+def feature_importance_selection(X, y, k2):
+    # Using ExtraTreesClassifier to rank feature importance
+    model = ExtraTreesClassifier(n_estimators=100)
+    model.fit(X, y)
+    
+    # Get feature importance scores
+    feature_importance = model.feature_importances_
+    sorted_idx = np.argsort(feature_importance)[::-1]  # Sort in descending order
+    top_k_features = sorted_idx[:k2]
+    return top_k_features
 
-        # Step 2: Feature Importance via Extra Trees Classifier
-        etc = ExtraTreesClassifier(n_estimators=100, random_state=42)
-        etc.fit(X, y)
-        feature_importances = pd.Series(etc.feature_importances_, index=X.columns)
-        fif_features = feature_importances.nlargest(self.k2).index
-        self.fif_selected = set(fif_features)
+# Step 3: Custom Scoring Metric for Feature Selection
+def custom_scoring_metric(X):
+    # Example: Variance as custom metric for feature selection
+    variance_scores = X.var(axis=0)
+    return variance_scores
 
-        # Step 3: Create Modified Union Set (CMF)
-        self.selected_features = self.chi2_selected.union(self.fif_selected)
+# Step 4: Feature Correlation Removal (removes highly correlated features)
+def remove_high_correlation_features(X, threshold=0.9):
+    corr_matrix = X.corr().abs()
+    upper_triangle = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
+    
+    # Identify features to drop based on correlation threshold
+    to_drop = [column for column in upper_triangle.columns if any(upper_triangle[column] > threshold)]
+    X_filtered = X.drop(X[to_drop], axis=1)
+    return X_filtered
 
-    def transform(self, X):
-        """
-        Transforms the dataset by selecting only the chosen features.
-        
-        :param X: Feature matrix (pandas DataFrame).
-        :return: Transformed DataFrame with selected features.
-        """
-        if self.selected_features is None:
-            raise ValueError("UniSelect has not been fitted yet. Call fit() first.")
-        return X[list(self.selected_features)]
+# Step 5: Recursive Feature Elimination (RFE)
+def rfe_selection(X, y, model):
+    rfe = RFE(model, n_features_to_select=1)  # Select the most important feature
+    rfe.fit(X, y)
+    return rfe.support_
 
-    def fit_transform(self, X, y):
-        """
-        Fits the selector and transforms the dataset.
-        :param X: Feature matrix.
-        :param y: Target labels.
-        :return: Transformed dataset with selected features.
-        """
-        self.fit(X, y)
-        return self.transform(X)
+# Main function for UniSelect
+def UniSelect(X, y, k1, k2):
+    # Step 1: Chi-Square feature selection
+    selected_features_chi2 = chi_square_selection(X, y, k1)
+    
+    # Step 2: Feature Importance using ExtraTreesClassifier
+    selected_features_importance = feature_importance_selection(X, y, k2)
+    
+    # Combine the two feature sets (taking union of selected features)
+    selected_features = np.union1d(selected_features_chi2, selected_features_importance)
+    
+    # Step 3: Custom scoring metric for feature selection
+    variance_scores = custom_scoring_metric(X)
+    custom_scored_features = np.argsort(variance_scores)[::-1][:len(selected_features)]  # Select top features
+    
+    # Step 4: Remove highly correlated features
+    X_filtered = remove_high_correlation_features(X)
+    
+    # Step 5: Train a base classifier using Recursive Feature Elimination (RFE)
+    model = LogisticRegression(max_iter=1000)
+    selected_rfe_features = rfe_selection(X_filtered.iloc[:, selected_features], y, model)
+    
+    # Final set of selected features (modified union)
+    final_selected_features = np.where(selected_rfe_features)[0]
+    
+    # Return the final set of features
+    return X_filtered.iloc[:, final_selected_features], final_selected_features
 
+# Example usage with Iris dataset
+from sklearn.datasets import load_iris
 
+# Load the dataset
+data = load_iris()
+X = pd.DataFrame(data.data, columns=data.feature_names)
+y = pd.Series(data.target)
 
+# Preprocessing: Encode labels if necessary
+le = LabelEncoder()
+y_encoded = le.fit_transform(y)
 
+# Set the number of top-k features to select
+k1 = 2  # Number of features based on Chi-Square
+k2 = 2  # Number of features based on Feature Importance
 
-from uniselect import UniSelect
-import pandas as pd
+# Apply the UniSelect feature selection
+X_selected, selected_features = UniSelect(X, y_encoded, k1, k2)
 
-# Load dataset (replace with actual data)
-df = pd.read_csv("dataset.csv")
-X = df.drop(columns=["target"])  # Features
-y = df["target"]  # Target variable
+# Train a classifier on the selected features
+X_train, X_test, y_train, y_test = train_test_split(X_selected, y_encoded, test_size=0.3, random_state=42)
 
-# Initialize and apply UniSelect
-selector = UniSelect(k1=10, k2=15)
-X_selected = selector.fit_transform(X, y)
+# Normalize features
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
 
-print("Selected Features:", list(selector.selected_features))
+# Train a classifier (Logistic Regression)
+model = LogisticRegression(max_iter=1000)
+model.fit(X_train, y_train)
+
+# Predict and evaluate the model
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+
+print(f"Selected features: {selected_features}")
+print(f"Model Accuracy: {accuracy}")
