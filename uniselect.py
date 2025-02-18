@@ -54,10 +54,27 @@ class UniSelect:
     def fit_transform(self, X, y):
         """
         Fits the selector and transforms the dataset.
-        
         :param X: Feature matrix.
         :param y: Target labels.
         :return: Transformed dataset with selected features.
         """
         self.fit(X, y)
         return self.transform(X)
+
+
+
+
+
+from uniselect import UniSelect
+import pandas as pd
+
+# Load dataset (replace with actual data)
+df = pd.read_csv("dataset.csv")
+X = df.drop(columns=["target"])  # Features
+y = df["target"]  # Target variable
+
+# Initialize and apply UniSelect
+selector = UniSelect(k1=10, k2=15)
+X_selected = selector.fit_transform(X, y)
+
+print("Selected Features:", list(selector.selected_features))
