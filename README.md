@@ -151,5 +151,12 @@ Calculate Accuracy and F-score for the ensemble model.
 Return final predictions, Accuracy, F-score, PA, and FSOI.
 </ol></p>
 
+<p><b> How to Run </b></p>
+<p>Clone the Repository</p>
+<p>Install Dependencies</p>
+<p>Ensure Dataset is Available</p>
+<p>Run Scripts Individually</p>
+<p>Run the Full Pipeline (Automates All Steps)</p>
+<p>Run Jupyter Notebooks for Analysis</p>
 
 
