@@ -45,6 +45,26 @@ Minimum: 8GB RAM, Dual-Core CPU
 Recommended: 16GB RAM, GPU for faster computations</ol></p>
 
 
+<p><b>UniSelect Algorithm Workflow</b></p>
+<P><ol>Input Data Preparation
 
+Load dataset with n features and a target variable.
+Define k1 (Chi-Square top-k features) and k2 (Feature Importance top-k features)<ol>.
+<ol>Filter-Based Feature Selection
+
+Chi-Square Test: Selects k1 most relevant features (C).
+Extra Trees Classifier (ETC): Computes feature importance using MDI & MDA, selecting k2 top features (I).</ol>
+Feature Combination & Refinement
+
+Compute custom scoring metrics (S).
+Identify and remove highly correlated features (R).
+Form the Modified Union Set = C ∪ I ∪ S ∩ R.
+Wrapper-Based Optimization
+
+Apply Recursive Feature Elimination (RFE) to refine the selected feature subset.
+Final Model Training & Prediction
+
+Train a classifier (SVM, DT, NB, etc.) on optimized features.
+Predict student performance with improved accuracy.</P>
 
 
