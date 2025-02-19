@@ -139,85 +139,8 @@ Calculate Accuracy and F-score for the ensemble model.
 </ol></p>
 
 
-Scripts & Their Purpose
-1. EMPA-FWO-VCA.py
-📌 Purpose: Implements the Ensemble Model with Prime Attributes and Filter-Wrapper Optimization using Voting Classifier Algorithm (EMPA-FWO-VCA).
-🚀 Run the script:
 
 
-python EMPA-FWO-VCA.py
-2. EMPA_FWO_VCA_Analysis.ipynb
-📌 Purpose: Jupyter Notebook for analyzing the EMPA-FWO-VCA ensemble model’s performance and feature impact.
-🚀 Run the notebook:
-
-
-jupyter notebook EMPA_FWO_VCA_Analysis.ipynb
-3. Feature_Subset_Optimization_Index.py
-📌 Purpose: Computes the Feature Subset Optimization Index (FSOI) to evaluate selected features' quality.
-🚀 Run the script:
-
-
-python Feature_Subset_Optimization_Index.py
-4. MMFW-RFE.py
-📌 Purpose: Implements the Multi-Method Filter-Wrapper with Recursive Feature Elimination (MMFW-RFE) for feature selection and optimization.
-🚀 Run the script:
-
-
-python MMFW-RFE.py
-5. MMFW_RFE_Optimization.ipynb
-📌 Purpose: Jupyter Notebook for visualizing the MMFW-RFE feature selection process and its impact on classification performance.
-🚀 Run the notebook:
-
-
-jupyter notebook MMFW_RFE_Optimization.ipynb
-6. UniSelect_Analysis.ipynb
-📌 Purpose: Notebook for analyzing UniSelect, a hybrid feature selection algorithm combining Chi-Square and Feature Importance methods.
-🚀 Run the notebook:
-
-
-jupyter notebook UniSelect_Analysis.ipynb
-7. binary_classification.py
-📌 Purpose: Performs binary classification (pass/fail prediction) using selected features.
-🚀 Run the script:
-
-python binary_classification.py
-8. multiclassification.py
-📌 Purpose: Implements multi-class classification for student performance prediction using optimized features.
-🚀 Run the script:
-
-
-python multiclassification.py
-9. data_preprocessing.py
-📌 Purpose: Cleans and preprocesses dataset, including handling missing values, encoding categorical data, and normalizing features.
-🚀 Run the script:
-
-python data_preprocessing.py
-10. feature_selection.py
-📌 Purpose: Selects the most relevant features using UniSelect, MMFW-RFE, and Feature Importance techniques.
-🚀 Run the script:
-
-
-python feature_selection.py
-11. model_training.py
-📌 Purpose: Trains machine learning models (Decision Tree, SVM, Naïve Bayes, etc.) using optimized feature subsets.
-🚀 Run the script:
-
-
-python model_training.py
-12. ensemble_voting_classifier.py
-📌 Purpose: Implements an ensemble learning approach using Voting Classifier for improved prediction accuracy.
-🚀 Run the script:
-
-python ensemble_voting_classifier.py
-13. uniselect.py
-📌 Purpose: Implements UniSelect, a hybrid feature selection algorithm combining filter and wrapper-based methods.
-🚀 Run the script:
-
-python uniselect.py
-How to Run the Full Pipeline
-To execute the full feature selection, model training, and prediction pipeline, run:
-
-python pipeline.py
 
 
 
