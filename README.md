@@ -11,5 +11,9 @@
 <p><ol>Career Guidance & University Admissions – Assists in evaluating student potential for university admissions and career recommendations.</ol></p>
 <p><ol>Educational Policy & Institutional Planning – Supports data-driven decision-making for curriculum design and resource allocation.</ol></p>
 <p><ol>Workforce Development & Skill Training – Optimizes corporate training programs by predicting employee learning effectiveness.</ol></p>
+<p><b>Prerequisites for Using the Framework</b></p>
+<p><ol>Python Environment
 
+Python 3.7 or later
+Recommended: Anaconda or a virtual environment (venv)</ol></p>
 
