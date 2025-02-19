@@ -47,6 +47,7 @@ Recommended: 16GB RAM, GPU for faster computations</ol></p>
 
 <p><b>UniSelect Algorithm Workflow</b></p>
 <P><ol>Input Data Preparation
+  
 Load dataset with n features and a target variable.
 Define k1 (Chi-Square top-k features) and k2 (Feature Importance top-k features)</ol></P>
 <p><ol>Filter-Based Feature Selection
@@ -65,5 +66,52 @@ Apply Recursive Feature Elimination (RFE) to refine the selected feature subset.
 
 Train a classifier (SVM, DT, NB, etc.) on optimized features.
 Predict student performance with improved accuracy.</ol></p>
+
+
+<p><b>Workflow of MMFW-RFE Algorithm</b></p>
+<P><ol>Input Data Preparation
+  
+Load dataset with n features (A) and class labels (C).
+Define k (number of features to select) and n (features to eliminate per iteration).
+Choose a classification algorithm (B) for evaluation. </ol></P>
+
+
+<p><ol>Initial Feature Selection
+
+Select k best features using Chi-Square Test (FS1).
+Select k best features using Feature Importance (ETC) (FS2).
+Combine both feature sets into a Modified Union Set (FS).</ol></p>
+
+
+<p><ol>Feature Subset Optimization
+
+If FS has more or fewer than k features, adjust accordingly.
+Apply Reduced Recursive Feature Elimination (RRFE) to remove redundant features.
+Evaluate performance using Accuracy and F-score.
+Apply Cross-Validated RFE (CV-RFE) with k-fold validation.</ol></p>
+
+
+<p><ol>Final Feature Selection
+
+Refine RRFE and CV-RFE subsets using Chi-Square filtering.
+Compute Feature Subset Optimization Index (FSOI).</ol></p>
+
+
+<p><ol>Best Feature Subset Selection
+
+Compare RRFE and CV-RFE results.
+Select the optimal feature subset with the highest FSOI, Accuracy, and F-score.
+</ol></p>
+
+
+<p><ol>Output
+
+Return Prime Attributes (PA), FSOI, Accuracy, and F-score for final classification.
+</ol></p>
+
+
+
+
+
 
 
