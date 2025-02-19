@@ -17,3 +17,34 @@
 Python 3.7 or later
 Recommended: Anaconda or a virtual environment (venv)</ol></p>
 
+<p><ol>Required Libraries 
+
+NumPy
+Pandas
+Scikit-learn
+Matplotlib
+Seaborn</ol></p>
+
+<p><ol>Dataset
+
+The framework is designed to work with student performance datasets.
+Ensure the dataset is in CSV format and contains relevant features like demographic, academic, and behavioral attributes.</ol></p>
+
+
+<p><ol>Machine Learning Frameworks
+
+Scikit-learn for feature selection and classification algorithms
+TensorFlow/Keras (optional) for deep learning-based extensions</ol></p>
+
+
+
+
+<p><ol>System Requirements
+
+Minimum: 8GB RAM, Dual-Core CPU
+Recommended: 16GB RAM, GPU for faster computations</ol></p>
+
+
+
+
+
