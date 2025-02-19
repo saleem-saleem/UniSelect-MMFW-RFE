@@ -112,6 +112,37 @@ Return Prime Attributes (PA), FSOI, Accuracy, and F-score for final classificati
 
 
 
+<p><b>Workflow of EMPA-FWO-VCA Algorithm </b></p>
+<P><ol>Dataset Partitioning
+  
+Split dataset into training set (A_train) and testing set (A_test). </ol></P>
+
+
+<p><ol>Feature Selection & Optimization
+
+Apply MMFW-RFE (Algorithm 2) on A_train to obtain Prime Attributes (PA) and Feature Subset Optimization Index (FSOI).</ol></p>
+
+
+<p><ol>Training Weak Classifiers
+
+Train Decision Tree (DT), Naïve Bayes (NB), and Support Vector Machine (SVM) on A_train using PA.</ol></p>
+
+
+<p><ol>Voting Classifier for Final Prediction
+
+Use a weighted voting mechanism to combine predictions from all classifiers..</ol></p>
+
+
+<p><ol>Performance Evaluation
+
+Calculate Accuracy and F-score for the ensemble model.
+</ol></p>
+
+
+<p><ol>Output
+
+Return final predictions, Accuracy, F-score, PA, and FSOI.
+</ol></p>
 
 
 
