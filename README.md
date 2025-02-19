@@ -49,7 +49,7 @@ Recommended: 16GB RAM, GPU for faster computations</ol></p>
 <P><ol>Input Data Preparation
 
 Load dataset with n features and a target variable.
-Define k1 (Chi-Square top-k features) and k2 (Feature Importance top-k features)<ol>.
+Define k1 (Chi-Square top-k features) and k2 (Feature Importance top-k features)<ol>.</P>
 <p><ol>Filter-Based Feature Selection
 
 Chi-Square Test: Selects k1 most relevant features (C).
