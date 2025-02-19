@@ -50,21 +50,21 @@ Recommended: 16GB RAM, GPU for faster computations</ol></p>
 
 Load dataset with n features and a target variable.
 Define k1 (Chi-Square top-k features) and k2 (Feature Importance top-k features)<ol>.
-<ol>Filter-Based Feature Selection
+<p><ol>Filter-Based Feature Selection
 
 Chi-Square Test: Selects k1 most relevant features (C).
-Extra Trees Classifier (ETC): Computes feature importance using MDI & MDA, selecting k2 top features (I).</ol>
-Feature Combination & Refinement
+Extra Trees Classifier (ETC): Computes feature importance using MDI & MDA, selecting k2 top features (I).</ol></p>
+<p><ol>Feature Combination & Refinement
 
 Compute custom scoring metrics (S).
 Identify and remove highly correlated features (R).
-Form the Modified Union Set = C ∪ I ∪ S ∩ R.
-Wrapper-Based Optimization
+Form the Modified Union Set = C ∪ I ∪ S ∩ R.</ol></p>
+<p><ol>Wrapper-Based Optimization
 
-Apply Recursive Feature Elimination (RFE) to refine the selected feature subset.
-Final Model Training & Prediction
+Apply Recursive Feature Elimination (RFE) to refine the selected feature subset.</ol></p>
+<p><ol>Final Model Training & Prediction
 
 Train a classifier (SVM, DT, NB, etc.) on optimized features.
-Predict student performance with improved accuracy.</P>
+Predict student performance with improved accuracy.</ol></p>
 
 
